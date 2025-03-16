@@ -39,5 +39,8 @@ jobs:
         working-directory: .
 
       - name: Apply Terraform in terraform-mks
-        run: terraform apply -auto-approve
         working-directory: .
+        run: terraform apply -auto-approve
+        env:
+          AWS_SKIP_REQUESTING_ACCOUNT_ID: "true"  # Для совместимости с Yandex S3
+        run: terraform apply -auto-approve
