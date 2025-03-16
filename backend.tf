@@ -3,7 +3,7 @@ terraform {
     endpoint   = "https://storage.yandexcloud.net"
     bucket     = "bucket-tfstate"
     region     = "ru-central1"
-    key        = "network/terraform.tfstate"
+    key        = "infra-k8s/terraform.tfstate"
     profile    = "yandex"
     skip_region_validation      = true
     skip_credentials_validation = true
