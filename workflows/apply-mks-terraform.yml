@@ -1,0 +1,41 @@
+name: Apply Terraform for MKS
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'terraform-mks/**'
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create SA key file
+        env:
+          YC_SA_JSON_CREDENTIALS: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+        run: |
+          echo "${{ secrets.YC_SA_KEY_INIT }}" | base64 -d > sa-key-init.json
+
+      - name: Configure AWS credentials for Yandex S3
+        run: |
+          mkdir -p ~/.aws
+          cat <<EOT > ~/.aws/credentials
+          [yandex]
+          aws_access_key_id = ${{ secrets.YC_AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key = ${{ secrets.YC_AWS_SECRET_ACCESS_KEY }}
+          EOT
+  
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Initialize Terraform in terraform-mks
+        run: terraform init -reconfigure
+        working-directory: ./terraform-mks
+
+      - name: Apply Terraform in terraform-mks
+        run: terraform apply -auto-approve
+        working-directory: ./terraform-mks
