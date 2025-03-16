@@ -16,7 +16,7 @@ jobs:
         env:
           YC_SA_JSON_CREDENTIALS: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
         run: |
-          echo "${{ secrets.YC_SA_KEY_INIT }}" | base64 -d > sa-key-init.json
+          echo "${{ secrets.YC_SA_KEY_INIT }}" | base64 -d > ../sa-key-init.json
 
       - name: Configure AWS credentials for Yandex S3
         run: |
