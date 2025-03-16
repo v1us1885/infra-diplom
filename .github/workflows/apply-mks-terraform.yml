@@ -33,13 +33,17 @@ jobs:
   
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
 
       - name: Initialize Terraform in terraform-mks
-        run: terraform init -reconfigure
         working-directory: .
+        run: terraform init -reconfigure
+        
 
       - name: Apply Terraform in terraform-mks
         working-directory: .
         env:
-          AWS_SKIP_REQUESTING_ACCOUNT_ID: "true"  # Для совместимости с Yandex S3
+          AWS_SKIP_REQUESTING_ACCOUNT_ID: "true"
+          AWS_S3_DISABLE_100_CONTINUE: "true"
         run: terraform apply -auto-approve
