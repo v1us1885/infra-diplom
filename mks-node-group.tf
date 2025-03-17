@@ -26,8 +26,8 @@ resource "yandex_kubernetes_node_group" "node-group" {
     platform_id = "standard-v2"
     resources {
       memory = 4
-      cores  = 4
-      core_fraction = 50
+      cores  = 2
+      core_fraction = 20
     }
 
     boot_disk {
