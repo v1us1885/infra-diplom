@@ -12,11 +12,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install YC CLI
-        run: |
-          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
-          echo "$HOME/yandex-cloud/bin" >> $GITHUB_PATH
-
       - name: Create SA key file
         run: |
           echo "${{ secrets.YC_SA_KEY_INIT }}" | base64 -d > ../sa-key-init.json
@@ -43,7 +38,4 @@ jobs:
 
       - name: Apply Terraform in terraform-mks
         working-directory: .
-        env:
-          AWS_SKIP_REQUESTING_ACCOUNT_ID: "true"
-          AWS_S3_DISABLE_100_CONTINUE: "true"
         run: terraform apply -auto-approve
