@@ -4,6 +4,7 @@ resource "yandex_kubernetes_cluster" "k8s_cluster" {
   network_id  = data.terraform_remote_state.network.outputs.network_id
 
   master {
+    version = "1.30"
     regional {
       region = "ru-central1"
 
